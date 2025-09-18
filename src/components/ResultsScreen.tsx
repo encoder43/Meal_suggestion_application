@@ -475,8 +475,8 @@ export function ResultsScreen({ answers, onRestart }: ResultsScreenProps) {
           </motion.div>
         </motion.div>
 
-        {/* AI Response Section */}
-        {mealPlan.aiResponse && (
+        {/* AI Response Section - show only when structured AI meal plan parsed */}
+        {mealPlan.aiMealPlan && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
