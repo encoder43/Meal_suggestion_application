@@ -67,11 +67,16 @@ export function ResultsScreen({ answers, onRestart }: ResultsScreenProps) {
                 const apiPayload = convertAnswersToAPIFormat(answers);
                 console.log('Sending to API:', apiPayload);
 
-                const response = await fetch('http://127.0.0.1:8000/query', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(apiPayload),
-                });
+                // Define the backend URL dynamically.
+                // It will use the live URL on Netlify, or the local URL for development.
+                const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/query';
+
+                console.log(`Contacting API at: ${apiUrl}`); // Helpful for debugging
+
+                const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(apiPayload),});
 
                 if (!response.ok) {
                     const errorData = await response.json();
