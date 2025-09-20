@@ -5,14 +5,14 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-EDAMAM_APP_ID = os.getenv("EDAMAM_APP_ID")
-EDAMAM_APP_KEY = os.getenv("EDAMAM_APP_KEY")
+
 
 class RecipeSearchTool:
     def __init__(self):
-        if not EDAMAM_APP_ID or not EDAMAM_APP_KEY:
-            raise ValueError("Edamam API credentials not found in environment variables.")
-        self.tool_list = [self.search_recipe]
+        self.app_id = os.getenv("EDAMAM_APP_ID")
+        self.app_key = os.getenv("EDAMAM_APP_KEY")
+        # Only register the tool when credentials exist, otherwise degrade gracefully
+        self.tool_list = [self.search_recipe] if self.app_id and self.app_key else []
 
     @tool
     def search_recipe(self, query: str, dietary_pref: str = "any") -> dict:
@@ -24,21 +24,24 @@ class RecipeSearchTool:
         Returns:
             dict: Recipe suggestions with title, ingredients, instructions, and dietary info.
         """
+        if not self.app_id or not self.app_key:
+            return {"error": "Edamam credentials are not configured."}
+
         base_url = "https://api.edamam.com/search"
-        diet_filter = ""
-        if dietary_pref.lower() in ["vegetarian", "vegan"]:
-            diet_filter = f"&health={dietary_pref.lower()}"
-        
         params = {
             "q": query,
-            "app_id": EDAMAM_APP_ID,
-            "app_key": EDAMAM_APP_KEY,
+            "app_id": self.app_id,
+            "app_key": self.app_key,
             "from": 0,
-            "to": 3  # top 3 recipes
+            "to": 3,  # top 3 recipes
         }
 
+        # Apply dietary filter if supported by Edamam via 'health' parameter
+        if dietary_pref and dietary_pref.lower() in ["vegetarian", "vegan"]:
+            params["health"] = dietary_pref.lower()
+
         try:
-            response = requests.get(base_url, params=params)
+            response = requests.get(base_url, params=params, timeout=20)
             response.raise_for_status()
         except requests.RequestException as e:
             return {"error": f"API request failed: {str(e)}"}

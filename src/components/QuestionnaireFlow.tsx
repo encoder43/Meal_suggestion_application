@@ -260,9 +260,152 @@ export function QuestionnaireFlow({ onComplete, onBack }: QuestionnaireFlowProps
     }
   };
 
+  // Get question-specific background and theme
+  const getQuestionTheme = (questionId: string) => {
+    const themes = {
+      name: { 
+        bgImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXJzb25hbCUyMGhlYWx0aCUyMHByb2ZpbGV8ZW58MXx8fHwxNzU4MTI1ODQ2fDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['emerald', 'blue']
+      },
+      age: { 
+        bgImage: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaWZlc3R5bGUlMjBhZ2luZyUyMGhlYWx0aHxlbnwxfHx8fDE3NTgxMjU4NDd8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['blue', 'purple']
+      },
+      gender: { 
+        bgImage: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaXZlcnNpdHklMjBpbmNsdXNpb258ZW58MXx8fHwxNzU4MTI1ODQ4fDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['purple', 'pink']
+      },
+      height: { 
+        bgImage: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxib2R5JTIwbWVhc3VyZW1lbnQlMjBoZWlnaHQlMjBmaXRuZXNz8ZW58MXx8fHwxNzU4MTI1ODQ5fDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['green', 'emerald']
+      },
+      weight: { 
+        bgImage: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxib2R5JTIwd2VpZ2h0JTIwaGVhbHRoeWV8ZW58MXx8fHwxNzU4MTI1ODUwfDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['emerald', 'green']
+      },
+      activity: { 
+        bgImage: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxleGVyY2lzZSUyMHdvcmtvdXR8ZW58MXx8fHwxNzU4MTI1ODUxfDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['orange', 'red']
+      },
+      goals: { 
+        bgImage: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGglMjBnb2Fsc3xlbnwxfHx8fDE3NTgxMjU4NTJ8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['green', 'blue']
+      },
+      dietary_preferences: { 
+        bgImage: 'https://images.unsplash.com/photo-1638328740227-1c4b1627614d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoZWFsdGh5JTIwZnJlc2glMjB2ZWdldGFibGVzJTIwY29sb3JmdWx8ZW58MXx8fHwxNzU4MTI1ODQ1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['green', 'emerald']
+      },
+      allergies: { 
+        bgImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhbGxlcmdpZXMlMjBmb29kJTIwc2FmZXR5fGVufDF8fHwxNzU4MTI1ODUzfDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['red', 'orange']
+      },
+      medical_conditions: { 
+        bgImage: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWRpY2FsJTIwaGVhbHRoJTIwY2FyZXxlbnwxfHx8fDE3NTgxMjU4NTR8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['blue', 'purple']
+      },
+      medications: { 
+        bgImage: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWRpY2luZXMlMjBoZWFsdGhjYXJlfGVufDF8fHwxNzU4MTI1ODU1fDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['purple', 'blue']
+      },
+      dislikes: { 
+        bgImage: 'https://images.unsplash.com/photo-1638328740227-1c4b1627614d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwZGlzbGlrZXN8ZW58MXx8fHwxNzU4MTI1ODU2fDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['red', 'pink']
+      },
+      likes: { 
+        bgImage: 'https://images.unsplash.com/photo-1638328740227-1c4b1627614d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYXZvcml0ZSUyMGZvb2R8ZW58MXx8fHwxNzU4MTI1ODU3fDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['green', 'emerald']
+      },
+      religious_restrictions: { 
+        bgImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWxpZ2lvdXMlMjBjdWx0dXJlJTIwZm9vZHxlbnwxfHx8fDE3NTgxMjU4NTh8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['purple', 'indigo']
+      },
+      meals_per_day: { 
+        bgImage: 'https://images.unsplash.com/photo-1638328740227-1c4b1627614d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWFsJTIwcGxhbm5pbmclMjBzY2hlZHVsZXxlbnwxfHx8fDE3NTgxMjU4NTl8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['orange', 'yellow']
+      },
+      budget: { 
+        bgImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidWRnZXQlMjBtb25leSUyMGZvb2R8ZW58MXx8fHwxNzU4MTI1ODYwfDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['yellow', 'orange']
+      },
+      cooking_skill: { 
+        bgImage: 'https://images.unsplash.com/photo-1638328740227-1c4b1627614d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb29raW5nJTIwc2tpbGwlMjByZWNpcGV8ZW58MXx8fHwxNzU4MTI1ODYxfDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['red', 'orange']
+      },
+      dietary_pattern: { 
+        bgImage: 'https://images.unsplash.com/photo-1638328740227-1c4b1627614d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWV0YXJ5JTIwcGF0dGVybiUyMHZlZ2V0YXJpYW58ZW58MXx8fHwxNzU4MTI1ODYyfDA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['green', 'emerald']
+      },
+      cuisine_preferences: { 
+        bgImage: 'https://images.unsplash.com/photo-1638328740227-1c4b1627614d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjdWlzaW5lJTIwd29ybGR3aWRlJTIwZm9vZHxlbnwxfHx8fDE3NTgxMjU4NjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['orange', 'red']
+      },
+      medical_conditions_old: { 
+        bgImage: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWRpY2FsJTIwaGVhbHRoJTIwY2FyZXxlbnwxfHx8fDE3NTgxMjU4NTR8MA&ixlib=rb-4.1.0&q=80&w=1080',
+        colors: ['blue', 'purple']
+      }
+    };
+    return themes[questionId as keyof typeof themes] || themes.name;
+  };
+
+  const currentTheme = getQuestionTheme(currentQuestion.id);
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-blue-50 to-green-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-emerald-50 via-blue-50 to-green-50 py-8 px-4">
+      {/* Animated Background Image */}
+      <motion.div
+        key={currentQuestion.id} // Re-animate when question changes
+        className="absolute inset-0 opacity-15"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.15 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.8 }}
+        style={{
+          backgroundImage: `url(${currentTheme.bgImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+      
+      {/* Floating Elements */}
+      <motion.div
+        className={`absolute top-20 left-20 w-20 h-20 bg-${currentTheme.colors[0]}-200 rounded-full opacity-60`}
+        animate={{
+          y: [0, -20, 0],
+          x: [0, 10, 0],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+      <motion.div
+        className={`absolute top-40 right-32 w-16 h-16 bg-${currentTheme.colors[1]}-200 rounded-full opacity-50`}
+        animate={{
+          y: [0, 20, 0],
+          x: [0, -15, 0],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+      <motion.div
+        className={`absolute bottom-32 left-40 w-12 h-12 bg-${currentTheme.colors[0]}-300 rounded-full opacity-40`}
+        animate={{
+          y: [0, -15, 0],
+          x: [0, 20, 0],
+        }}
+        transition={{
+          duration: 7,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+
+      <div className="relative z-10 max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

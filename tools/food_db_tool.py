@@ -5,14 +5,13 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
-USDA_API_KEY = os.getenv("USDA_API_KEY")
+
 
 class FoodDBTool:
     def __init__(self):
-        if not USDA_API_KEY:
-            raise ValueError("USDA_API_KEY not found in environment variables.")
-        self.api_key = USDA_API_KEY
-        self.tool_list = [self.lookup_food]
+        self.api_key = os.getenv("USDA_API_KEY")
+        # Degrade gracefully if missing
+        self.tool_list = [self.lookup_food] if self.api_key else []
 
     @tool
     def lookup_food(self, food_name: str) -> dict:
@@ -23,6 +22,9 @@ class FoodDBTool:
         Returns:
             dict: Nutritional profile with calories, protein, carbs, fats, or error message.
         """
+        if not self.api_key:
+            return {"error": "USDA API key is not configured."}
+
         base_url = "https://api.nal.usda.gov/fdc/v1/foods/search"
         params = {
             "query": food_name,
@@ -31,7 +33,7 @@ class FoodDBTool:
         }
 
         try:
-            response = requests.get(base_url, params=params)
+            response = requests.get(base_url, params=params, timeout=20)
             response.raise_for_status()
         except requests.RequestException as e:
             return {"error": f"API request failed: {str(e)}"}
