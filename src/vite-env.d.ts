@@ -1,0 +1,8 @@
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string;
+  // Add other environment variables here if you have more
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
