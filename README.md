@@ -156,5 +156,3 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 * Thanks to the creators of FastAPI, React, LangGraph, and Groq for their amazing tools and libraries that made this project possible and also to the all beautifull hearts who Contributingto opensource.*
 =======
   Run `npm run dev` to start the development server.
-  
->>>>>>> 7ce4d1fcd8e6d9f2a28fa348d76f6da4840b5de6
