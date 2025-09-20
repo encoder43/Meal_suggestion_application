@@ -6,17 +6,17 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.2.2-blue?logo=typescript)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-<<<<<<< HEAD
+
 An intelligent, full-stack application that generates personalized daily meal plans using an AI agent. Users provide their detailed health profile, dietary needs, and lifestyle preferences through a web interface, and the backend AI agent creates and returns a customized, beautifully styled meal plan.
 =======
 
->>>>>>> 7ce4d1fcd8e6d9f2a28fa348d76f6da4840b5de6
+
 
 ---
 
 ## ✨ Key Features
 
-<<<<<<< HEAD
+
 * **Detailed User Questionnaire:** Captures comprehensive user data including biometrics, activity levels, dietary patterns, allergies, and goals.
 * **AI-Powered Meal Generation:** Utilizes a sophisticated AI agent built with LangGraph and powered by the Groq API to create unique meal plans.
 * **Dynamic HTML Output:** The AI agent generates a clean, styled HTML response, making the frontend display logic simple and robust.
