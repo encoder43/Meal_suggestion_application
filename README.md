@@ -7,7 +7,7 @@
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 
-An intelligent, full-stack application that generates personalized daily meal plans using an AI agent. Users provide their detailed health profile, dietary needs, and lifestyle preferences through a web interface, and the backend AI agent creates and returns a customized, beautifully styled meal plan.
+An intelligent, full-stack application that generates personalized daily meal plans using an AI agent by taking the necessary information from user.
 =======
 
 
